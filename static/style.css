@@ -1,0 +1,213 @@
+/* Body with background image */
+body {
+    background: url('/static/images/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Form box styling remains the same */
+.form-box {
+    background-color: rgba(255,255,255,0.1);
+    padding: 50px 60px;    /* increased padding for more space */
+    border-radius: 25px;   /* slightly rounder corners */
+    width: 90%;            /* responsive width */
+    max-width: 700px;      /* bigger max width */
+    margin: 50px auto;
+    text-align: center;
+    box-shadow: 0px 0px 25px rgba(0,0,0,0.5);
+}
+
+.form-box h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.form-box h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.form-box input {
+    border-radius: 10px;
+    height: 45px;
+    font-size: 16px;
+    padding: 5px;
+    border: 2px solid white;
+    background-color: rgba(255,255,255,0.2);
+    color: black;  /* you can switch to white if you want */
+    margin-bottom: 15px;
+    width: 90%;
+}
+
+/* Placeholder text color */
+input::placeholder {
+    color: white;
+    opacity: 1; /* ensures full visibility */
+}
+
+/* For older browsers */
+input:-ms-input-placeholder { /* IE 10-11 */
+    color: white;
+}
+input::-ms-input-placeholder { /* Edge */
+    color: white;
+}
+
+/* Form row inputs and button */
+.form-row input {
+    flex: 1;
+    min-width: 150px;
+    height: 50px;
+    font-size: 18px;
+}
+
+.form-row button {
+    flex: 0 0 120px;  /* fixed width for predict button */
+    height: 55px;
+    font-size: 18px;
+}
+
+/* Form box buttons */
+.form-box button {
+    background: linear-gradient(135deg, #FFB6C1, #8A2BE2);
+    color: black;
+    font-weight: bold;
+    border-radius: 12px;
+    height: 50px;
+    width: 200px;
+    font-size: 16px;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+/* Logout button */
+.logout-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: #FFB6C1;
+    border-radius: 8px;
+    border: none;
+    padding: 8px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+}
+
+/* Company search & list (if you keep them later) */
+#company_search {
+    width: 90%;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 10px;
+    border: 2px solid white;
+    font-size: 16px;
+}
+
+#company_list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.1);
+}
+
+#company_list li {
+    padding: 12px 15px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.2s;
+    font-size: 16px;
+}
+
+#company_list li:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+
+/* Table styling for results */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    color: white;
+}
+
+table th {
+    background-color: rgba(255,255,255,0.2);
+    font-weight: bold;
+}
+
+table tr:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Chart image styling */
+.form-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+/* Technical signals list */
+.form-box ul {
+    text-align: left;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+.form-box li {
+    margin: 8px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.form-box li:last-child {
+    border-bottom: none;
+}
+
+
+/* Tab styling */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+.tab button:hover {
+    background-color: #ddd;
+}
+.tab button.active {
+    background-color: #ccc;
+}
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}

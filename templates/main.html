@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Prediction Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="form-box">
+        <h1>Welcome {{ username }} 💜</h1>
+        <h3>Stock Prediction Dashboard</h3>
+         
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p style="color:red; background-color: rgba(255,255,255,0.2); padding:10px; border-radius:8px; margin:10px 0;">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+         
+        <form method="POST" action="{{ url_for('predict') }}">
+            <input type="text" name="stock_symbol" placeholder="Stock Symbol (e.g., AAPL)" required>
+            <input type="date" name="start_date" required>
+            <input type="date" name="end_date" required>
+            <button type="submit">Predict</button>
+        </form>
+         
+        <p><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></p>
+    </div>
+</body>
+</html>

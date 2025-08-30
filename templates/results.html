@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ stock_symbol }} - Comprehensive Stock Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
+</head>
+<body>
+    <div class="form-box">
+        <h1>{{ stock_symbol }} - Comprehensive Stock Analysis 📊</h1>
+        
+        {% if real_time_info %}
+        <h3>Real-Time Information</h3>
+        <p>Current Price: ${{ "%.2f"|format(current_price) }}</p>
+        {% if real_time_info.change >= 0 %}
+        <p style="color: green;">
+            Change: +${{ "%.2f"|format(real_time_info.change) }} 
+            (+{{ "%.2f"|format(real_time_info.change_percent) }}%)
+        </p>
+        {% else %}
+        <p style="color: red;">
+            Change: ${{ "%.2f"|format(real_time_info.change) }} 
+            ({{ "%.2f"|format(real_time_info.change_percent) }}%)
+        </p>
+        {% endif %}
+        <p>Previous Close: ${{ "%.2f"|format(real_time_info.previous_close) }}</p>
+        {% endif %}
+        
+        <h3>Technical Indicators</h3>
+        <ul>
+            <li>
+                <strong>RSI (Relative Strength Index)</strong><br>
+                Value: {{ "%.1f"|format(analysis.rsi.value) }}<br>
+                Signal: {{ analysis.rsi.signal.status }}<br>
+                Action: {{ analysis.rsi.signal.action }}<br>
+                {{ analysis.rsi.description }}
+            </li>
+            <li>
+                <strong>MACD</strong><br>
+                MACD: {{ "%.4f"|format(analysis.macd.value) }}<br>
+                Signal: {{ "%.4f"|format(analysis.macd.signal_line) }}<br>
+                Status: {{ analysis.macd.analysis.status }}<br>
+                Action: {{ analysis.macd.analysis.action }}
+            </li>
+            <li>
+                <strong>Williams %R</strong><br>
+                Value: {{ "%.1f"|format(analysis.williams_r.value) }}<br>
+                Signal: {{ analysis.williams_r.signal.status }}<br>
+                Action: {{ analysis.williams_r.signal.action }}
+            </li>
+            <li>
+                <strong>Bollinger Bands</strong><br>
+                Position: {{ "%.2f"|format(analysis.bollinger_bands.position) }}<br>
+                Upper: ${{ "%.2f"|format(analysis.bollinger_bands.upper) }}<br>
+                Lower: ${{ "%.2f"|format(analysis.bollinger_bands.lower) }}<br>
+                Signal: {{ analysis.bollinger_bands.signal.status }}<br>
+                Action: {{ analysis.bollinger_bands.signal.action }}
+            </li>
+            <li>
+                <strong>Moving Averages</strong><br>
+                {% for ma_name, ma_data in analysis.moving_averages.items() %}
+                {{ ma_name }}: {{ ma_data.status }} ({{ ma_data.action }})<br>
+                {% endfor %}
+            </li>
+        </ul>
+        
+        <h3>Visualizations</h3>
+        <div class="tab">
+            <button class="tablinks" onclick="openChart(event, 'Price')">Price Analysis</button>
+            <button class="tablinks" onclick="openChart(event, 'RSI')">RSI Analysis</button>
+            <button class="tablinks" onclick="openChart(event, 'MACD')">MACD Analysis</button>
+            <button class="tablinks" onclick="openChart(event, 'WilliamsR')">Williams %R</button>
+            {% if chart_urls.volume_analysis %}
+            <button class="tablinks" onclick="openChart(event, 'Volume')">Volume Analysis</button>
+            {% endif %}
+        </div>
+        <div id="Price" class="tabcontent">
+            <img src="{{ chart_urls.price_analysis }}" alt="Price Analysis">
+        </div>
+        <div id="RSI" class="tabcontent">
+            <img src="{{ chart_urls.rsi_analysis }}" alt="RSI Analysis">
+        </div>
+        <div id="MACD" class="tabcontent">
+            <img src="{{ chart_urls.macd_analysis }}" alt="MACD Analysis">
+        </div>
+        <div id="WilliamsR" class="tabcontent">
+            <img src="{{ chart_urls.williams_r_analysis }}" alt="Williams %R Analysis">
+        </div>
+        {% if chart_urls.volume_analysis %}
+        <div id="Volume" class="tabcontent">
+            <img src="{{ chart_urls.volume_analysis }}" alt="Volume Analysis">
+        </div>
+        {% endif %}
+        
+        <h3>Future Price Predictions (Next 7 Days)</h3>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Linear Regression</th>
+                <th>MA Reversion</th>
+                <th>Average Prediction</th>
+            </tr>
+            {% for idx, row in predictions.iterrows() %}
+            <tr>
+                <td>{{ row['Date'].strftime('%Y-%m-%d') }}</td>
+                <td>${{ "%.2f"|format(row['Linear_Regression']) }}</td>
+                <td>${{ "%.2f"|format(row['MA_Reversion']) }}</td>
+                <td>${{ "%.2f"|format(row['Average_Prediction']) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <h3>🔮 Predict Price for Specific Date</h3>
+        <form id="predictFutureForm" method="POST" action="{{ url_for('predict_future') }}">
+            <label>Select Future Date:</label>
+            <input type="date" name="target_date" required>
+            <input type="hidden" name="stock_symbol" value="{{ stock_symbol }}">
+            <button type="submit">Predict Price</button>
+        </form>
+        <div id="futurePredictionResult"></div>
+        
+        <h3>📥 Export Data</h3>
+        <p>
+            <a href="{{ url_for('download_csv', stock_symbol=stock_symbol) }}" style="color:blanchedalmond;">📊 Download Complete Analysis CSV</a><br>
+            Includes all technical indicators, cleaned data, and analysis results
+        </p>
+        
+        <p><a href="{{ url_for('main') }}" style="color:blanchedalmond;">← Back to Dashboard</a></p>
+    </div>
+</body>
+</html>
